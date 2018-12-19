@@ -4,29 +4,38 @@
 #include <fstream>
 #include <cmath>
 #include <vector>
-
+#include <cstdlib>
+#include <ctime>
+using namespace std;
   struct particle // index of a particle in the swarm and its fitness
   {
         int index;
         double fitness;
   };
-  
+
+  struct Direction
+  {
+      bool dir;
+  };
+
 //=======================================================================
-  class Problem
+  class Problem //stockage de la fonction objective
   {
 	public:
 		Problem();
+		Problem(int dim,double LoLim,double UpLim);
 		~Problem();
 
 		friend ostream& operator<< (ostream& os, const Problem& pbm);
 		friend istream& operator>> (istream& is, Problem& pbm);
+		double func (const vector<double>& ind,int dim) const;
 
 		Problem& operator=  (const Problem& pbm);
 		bool operator== (const Problem& pbm) const;
 		bool operator!= (const Problem& pbm) const;
 
 		Direction direction () const; //Maximize or Minimize
-		int dimension() const;		
+		int dimension() const;
 		double LowerLimit, UpperLimit; //restriction minimale et restriction maximale
 
 	private:
@@ -50,31 +59,31 @@ class Solution
 		Solution& operator=  (const Solution& sol);
 		bool operator== (const Solution& sol) const;
 		bool operator!= (const Solution& sol) const;
-		
+
 		void initialize();
 		double fitness();
-		double get_fitness();
-		
+		double get_fitness() const;
+
 		unsigned int size() const;
 
 		vector<double>& solution();
-		
+
 		double& position(const int index); //retournera une position du tableau _solution
-       		void  position(const int index, const double value);
-	
+        void  position(const int index, const double value);
+
 
 	private:
-        	vector<double> _solution;
-        	double _current_fitness;                  
-		const Problem& _pbm;
+        	vector<double> _solution; //individu
+        	double _current_fitness;
+            const Problem& _pbm;
   };
-  
+
   //=======================================================================
 
    class SetUpParams
   {
   	//ici vous devez mettre quelques paramètres tels que :
-  	
+
 	private:
 		unsigned int   _independent_runs;       //number of independent runs
 		unsigned int   _nb_evolution_steps;     // number of iterations per run
@@ -100,7 +109,7 @@ class Solution
   };
   //=======================================================================
 
-  
+
   class MyAlgorithm
   {
 	private:
@@ -108,9 +117,9 @@ class Solution
 		vector<struct particle> _fitness_values;
 		const SetUpParams& _setup;
 		unsigned int _upper_cost,_lower_cost; // lower and upper fitness of individuals in population
- 
+
 	public:
-		MyAlgorithm(const Problem& pbm,const SetUpParams& setup); 
+		MyAlgorithm(const Problem& pbm,const SetUpParams& setup);
 		~MyAlgorithm();
 
 		friend ostream& operator<< (ostream& os, const MyAlgorithm& myAlgo);
@@ -119,12 +128,12 @@ class Solution
 		const SetUpParams& setup() const;
 	  	void initialize();
 		// creates a array with fitness of all solutions in MyAlgorithm and its position in the MyAlgorithm
-       		void evaluate();
+        void evaluate();
 	 	const vector<Solution*>& solutions() const;
 		unsigned int upper_cost() const;
 		unsigned int lower_cost() const;
 		Solution& solution(const unsigned int index) const;
-        	vector<struct particle>&  fitness_values();
+        vector<struct particle>&  fitness_values();
 		double fitness(const unsigned int index) const;
 		double best_cost() const;
 		double worst_cost() const;
@@ -133,5 +142,5 @@ class Solution
 		void evolution(int iter); /*makes an evolution step*/
 
   };
-  
+
 #endif
