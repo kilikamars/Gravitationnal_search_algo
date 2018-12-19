@@ -27,7 +27,7 @@
 
 		Direction direction () const; //Maximize or Minimize
 		int dimension() const;		
-		double LowerLimit, UpperLimit;
+		double LowerLimit, UpperLimit; //restriction minimale et restriction maximale
 
 	private:
 
@@ -36,7 +36,7 @@
 //=======================================================================
 class Solution
   {
-	//contient la déclaration d'une solution
+	//contient la dÃ©claration d'une solution
 	public:
 		Solution (const Problem& pbm);
 		Solution (const Solution& sol);
@@ -60,12 +60,12 @@ class Solution
 		vector<double>& solution();
 		
 		double& position(const int index); //retournera une position du tableau _solution
-        void  position(const int index, const double value);
+       		void  position(const int index, const double value);
 	
 
 	private:
-        vector<double> _solution;
-        double _current_fitness;                  
+        	vector<double> _solution;
+        	double _current_fitness;                  
 		const Problem& _pbm;
   };
   
@@ -73,12 +73,12 @@ class Solution
 
    class SetUpParams
   {
-  	//ici vous devez mettre quelques paramètres tels que :
+  	//ici vous devez mettre quelques paramÃ¨tres tels que :
   	
 	private:
-		unsigned int   _independent_runs;         //number of independent runs
-		unsigned int   _nb_evolution_steps;       // number of iterations per run
-		unsigned int   _population_size;		// number of solutions in the population
+		unsigned int   _independent_runs;       //number of independent runs
+		unsigned int   _nb_evolution_steps;     // number of iterations per run
+		unsigned int   _population_size;	// number of solutions in the population
 		unsigned int   _solution_size;	        // size of each particle
 
 	public:
@@ -118,23 +118,18 @@ class Solution
 		MyAlgorithm& operator= (const MyAlgorithm& myAlgo);
 		const SetUpParams& setup() const;
 	  	void initialize();
- 
 		// creates a array with fitness of all solutions in MyAlgorithm and its position in the MyAlgorithm
-        void evaluate();
-	 
+       		void evaluate();
 	 	const vector<Solution*>& solutions() const;
 		unsigned int upper_cost() const;
 		unsigned int lower_cost() const;
 		Solution& solution(const unsigned int index) const;
-        vector<struct particle>&  fitness_values();
+        	vector<struct particle>&  fitness_values();
 		double fitness(const unsigned int index) const;
-         
-		 
 		double best_cost() const;
 		double worst_cost() const;
-		Solution& best_solution() const;
-		Solution& worst_solution() const;
-		 
+		Solution& best_solution() const; //meilleure solution
+		Solution& worst_solution() const;// pire solution
 		void evolution(int iter); /*makes an evolution step*/
 
   };
