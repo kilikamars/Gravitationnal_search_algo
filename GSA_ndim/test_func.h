@@ -1,8 +1,5 @@
 #pragma once
 #include<vector>
-/*
-Maintien et contrats ÅEterme pour contrats ÅEterme relatifs aux contrats ÅEterme
-*/
 
 double func1(std::vector<double> pos, int dim)
 {
@@ -60,7 +57,7 @@ double ackley(std::vector<double> pos, int dim)
 	}
 //	return -a*exp(-b*sqrt(sum_pow / (n_dim))) + a - exp(sum_cos / (n_dim)) + exp(1.0);
 	return -a * exp(-b * sqrt(sum_pow / n_dim)) + a - exp(sum_cos / n_dim)  + exp(1.0);
-	
+
 }
 
 double rosenbrock(std::vector<double> pos, int dim)
@@ -85,9 +82,9 @@ double weierstrass(std::vector<double> pos, int dim)
 }
 
 double schaffer(std::vector<double> pos, int dim) {
-	double xcarre, ycarre, terme1, terme2, nominateur, denominateur; 
+	double xcarre, ycarre, terme1, terme2, nominateur, denominateur;
 	double resultat = 0; xcarre = pos[0] * pos[0]; ycarre = pos[1] * pos[1]; terme1 = xcarre + ycarre; terme2 = terme1 * terme1; nominateur = (sin(terme2)*sin(terme2)) - 0.5;
-	denominateur = (1 + 0.001*terme1)*(1 + 0.001*terme1); 
+	denominateur = (1 + 0.001*terme1)*(1 + 0.001*terme1);
 	resultat += (0.5 + (nominateur / denominateur));
 	return resultat;
 }

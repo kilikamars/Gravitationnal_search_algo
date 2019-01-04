@@ -32,11 +32,9 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="GSA.cpp" />
-		<Unit filename="GSA.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="myAlgorithm.cpp" />
 		<Unit filename="myAlgorithm.h" />
-		<Unit filename="resource.h" />
 		<Unit filename="test_func.h" />
 		<Extensions>
 			<code_completion />

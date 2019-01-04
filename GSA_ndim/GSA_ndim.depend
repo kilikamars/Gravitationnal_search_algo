@@ -1,0 +1,26 @@
+# depslib dependency file v1.0
+1544024703 source:c:\users\zeige\desktop\ia\gsa_ndim\gsa.cpp
+	"GSA.h"
+
+1543919616 c:\users\zeige\desktop\ia\gsa_ndim\gsa.h
+	<vector>
+	<cstdlib>
+	<math.h>
+	<algorithm>
+	<ctime>
+
+1546620190 source:c:\users\zeige\desktop\ia\gsa_ndim\myalgorithm.cpp
+	"myAlgorithm.h"
+
+1546621447 c:\users\zeige\desktop\ia\gsa_ndim\myalgorithm.h
+	<iostream>
+	<fstream>
+	<cmath>
+	<vector>
+	<cstdlib>
+	<ctime>
+
+1545207824 source:c:\users\zeige\desktop\ia\gsa_ndim\main.cpp
+	<iostream>
+	"myAlgorithm.h"
+
