@@ -23,7 +23,7 @@ using namespace std;
   {
 	public:
 		Problem();
-		Problem(int dim,double LoLim,double UpLim);
+		Problem(int num);
 		~Problem();
 
 		friend ostream& operator<< (ostream& os, const Problem& pbm);
@@ -34,18 +34,30 @@ using namespace std;
 		bool operator== (const Problem& pbm) const;
 		bool operator!= (const Problem& pbm) const;
 
-		Direction direction () const; //Maximize or Minimize
+		string nom() const;//nom fonction objective
+		int numero()const;//numero fonction objective
+		int direction () const; //Maximize=0 or Minimize=1
 		int dimension() const;
-		double LowerLimit, UpperLimit; //restriction minimale et restriction maximale
+		double LowerLimit() const;  //restriction minimale
+		double UpperLimit()const ;   // restriction maximale
+		void LowerLimits(double LowLim);
+		void UpperLimits(double UpLim);
+		void directions(int direct);
+		void dimensions(int dim);
+		void noms(string Nom);
+		void numeros(int num);
 
 	private:
 
-		int _dimension;
+		int _dimension,_num;
+		string _nom;
+		double _LowerLimit,_UpperLimit;
+		int _direction;
   };
 //=======================================================================
 class Solution
   {
-	//contient la dÃ©claration d'une solution
+	//contient la déclaration d'une solution
 	public:
 		Solution (const Problem& pbm);
 		Solution (const Solution& sol);
@@ -82,7 +94,7 @@ class Solution
 
    class SetUpParams
   {
-  	//ici vous devez mettre quelques paramÃ¨tres tels que :
+  	//ici vous devez mettre quelques paramètres tels que :
 
 	private:
 		unsigned int   _independent_runs;       //number of independent runs
@@ -92,6 +104,7 @@ class Solution
 
 	public:
 		SetUpParams ();
+		SetUpParams(int runs=30,int evolution=0,int population=40,int solution=20);
 
  		friend ostream& operator<< (ostream& os, const SetUpParams& setup);
 		friend istream& operator>> (istream& is, SetUpParams& setup);
@@ -113,13 +126,23 @@ class Solution
   class MyAlgorithm
   {
 	private:
-		vector<Solution*> _solutions;     // individuals in population
+		//vector<Solution*> _solutions;     // individuals in population
 		vector<struct particle> _fitness_values;
-		const SetUpParams& _setup;
-		unsigned int _upper_cost,_lower_cost; // lower and upper fitness of individuals in population
+       /* const SetUpParams& _setup;
+        int _upper_cost,_lower_cost; // lower and upper fitness of individuals in population
+        const Problem& _pbm;*/
+        	std::vector<Solution*> _solutions;     // individuals in population
+    int _upper_cost, _lower_cost; // lower and upper fitness of individuals in population
+	Solution *_best_Solution_overall;
+
+	Problem &_pbm;
+	SetUpParams &_setup;
+
+	double _g;
+
 
 	public:
-		MyAlgorithm(const Problem& pbm,const SetUpParams& setup);
+		MyAlgorithm( Problem& pbm, SetUpParams& setup);
 		~MyAlgorithm();
 
 		friend ostream& operator<< (ostream& os, const MyAlgorithm& myAlgo);
@@ -129,17 +152,20 @@ class Solution
 	  	void initialize();
 		// creates a array with fitness of all solutions in MyAlgorithm and its position in the MyAlgorithm
         void evaluate();
+
 	 	const vector<Solution*>& solutions() const;
 		unsigned int upper_cost() const;
 		unsigned int lower_cost() const;
 		Solution& solution(const unsigned int index) const;
         vector<struct particle>&  fitness_values();
 		double fitness(const unsigned int index) const;
+
 		double best_cost() const;
 		double worst_cost() const;
 		Solution& best_solution() const; //meilleure solution
 		Solution& worst_solution() const;// pire solution
 		void evolution(int iter); /*makes an evolution step*/
+
 
   };
 
