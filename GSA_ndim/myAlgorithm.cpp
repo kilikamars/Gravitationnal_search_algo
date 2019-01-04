@@ -10,8 +10,8 @@ Problem::Problem(int num):_num{num}
   {
     case 1 :
       _nom = "Ackley";
-      _LowerLimit = -32.768;
-      _UpperLimit = 32.768;
+      _LowerLimit = -32768;
+      _UpperLimit = 32768;
       _direction = 1;
       break;
 
@@ -64,12 +64,86 @@ int Problem::dimension() const
 
 double Problem::func(const vector<double>& ind,int dim) const
 {
-    double so=0;
-    for(int i=0;i<_dimension;i++)
-    {
-        so+=ind[i];
-    }
-    return so;
+    double fit;
+    int d;
+    double sum;
+    int n_dim ;
+double pi ;
+
+    switch(_num)
+  {
+    case 1 :
+      //_nom = "Ackley";
+        n_dim=dim;
+        double sum_pow ;
+        sum_pow=0.0;
+        double sum_cos ;
+        sum_cos=0.0;
+
+        for (d = 0; d < n_dim; d++)
+        {
+            sum_pow = sum_pow + pow(ind[d], 2);
+            sum_cos = sum_cos + cos((2* 3.141592654)*ind[d]);
+        }
+        fit=-20.0 * exp(-0.2 * sqrt(sum_pow / n_dim)) + 20.0 - exp(sum_cos / n_dim)  + exp(1.0);
+    break;
+
+    case 2 :
+      //_nom= "Rastrigin";	int d;
+	sum= 0.0;
+
+	pi= 3.141592654;
+
+	for (d = 0; d < dim; d++)
+	{
+		sum = sum + (pow(ind[d], 2) - (10.0 * cos(2 * pi * ind[d])));
+	}
+
+	fit= ((10.0 * dim) + sum);
+
+      break;
+
+    case 3 :
+      //_nom = "Rosenbrock";
+        for (int i = 0; i < dim - 1; i++) {
+            sum += (100 * (ind[i + 1] - ind[i] * ind[i])*(ind[i + 1] - ind[i] * ind[i]) + (ind[i] - 1)*(ind[i] - 1));
+        }
+        fit= sum;
+      break;
+    case 4 :
+     // _nom = "Schaffer";
+	double xcarre, ycarre, terme1, terme2, nominateur, denominateur;
+	double resultat;
+	resultat = 0; xcarre = ind[0] * ind[0]; ycarre = ind[1] * ind[1]; terme1 = xcarre + ycarre; terme2 = terme1 * terme1; nominateur = (sin(terme2)*sin(terme2)) - 0.5;
+	denominateur = (1 + 0.001*terme1)*(1 + 0.001*terme1);
+	resultat += (0.5 + (nominateur / denominateur));
+	fit= resultat;
+      break;
+
+    case 5 :
+     // _nom = "Schwefel";
+        sum= 0.0;
+        n_dim= dim;
+        for (d = 0; d < n_dim; d++)
+        {
+            sum += ind[d] * sin(sqrt(fabs(ind[d])));
+        }
+        fit= (418.9829*n_dim)-sum;
+    break;
+
+    case 6 :
+     // _nom = "Weierstrass";
+	int k;
+	sum = 0.0;
+	 pi = 3.141592654;
+	for (k = 1; k <= dim; k++)
+	{
+		sum = sum + ((sin(pi*(k*k)*ind[k - 1])) / pi * (k*k));
+	}
+	fit= sum;
+      break;
+  }
+  return fit;
 }
 double Problem::UpperLimit()const
 {
@@ -385,7 +459,14 @@ void MyAlgorithm::initialize()
         _fitness_values[i].index=i;
     }
 }
-
+void MyAlgorithm::evaluate()
+{
+    for( int i=0;i<_setup.population_size();i++)
+    {
+        _fitness_values[i].index=i;
+        _fitness_values[i].fitness=fitness(i);
+    }
+}
 unsigned int MyAlgorithm::upper_cost() const
 {
     return _upper_cost;
@@ -403,7 +484,10 @@ vector<struct particle>& MyAlgorithm::fitness_values()
 {
     return _fitness_values;
 }
-
+double MyAlgorithm::fitness(const unsigned int index) const
+{
+    return _solutions[index]->fitness();
+}
 const vector<Solution*>& MyAlgorithm::solutions() const
 {
     return _solutions;

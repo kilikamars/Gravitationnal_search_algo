@@ -126,12 +126,12 @@ class Solution
   class MyAlgorithm
   {
 	private:
-		//vector<Solution*> _solutions;     // individuals in population
-		vector<struct particle> _fitness_values;
-       /* const SetUpParams& _setup;
-        int _upper_cost,_lower_cost; // lower and upper fitness of individuals in population
-        const Problem& _pbm;*/
-        	std::vector<Solution*> _solutions;     // individuals in population
+    //vector<Solution*> _solutions;     // individuals in population
+    vector<struct particle> _fitness_values;
+   /* const SetUpParams& _setup;
+    int _upper_cost,_lower_cost; // lower and upper fitness of individuals in population
+    const Problem& _pbm;*/
+    std::vector<Solution*> _solutions;     // individuals in population
     int _upper_cost, _lower_cost; // lower and upper fitness of individuals in population
 	Solution *_best_Solution_overall;
 
